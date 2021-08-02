@@ -1,0 +1,61 @@
+- name: cp kube-scheduler-csr.json to /opt/kubernetes/ssl
+  template:
+    src: kube-scheduler/kube-scheduler-csr.json.j2
+    dest: /opt/kubernetes/ssl/kube-scheduler-csr.json
+    owner: root
+    group: root
+    mode: 0644
+
+- name: generate kube-scheduler.pem and kube-scheduler-key.pem
+  shell: /opt/kubernetes/bin/cfssl gencert -ca=/opt/kubernetes/ssl/ca.pem -ca-key=/opt/kubernetes/ssl/ca-key.pem -config=/opt/kubernetes/ssl/ca-config.json -profile=kubernetes kube-scheduler-csr.json | /opt/kubernetes/bin/cfssljson -bare kube-scheduler
+  args:
+    chdir: /opt/kubernetes/ssl
+    creates: /opt/kubernetes/ssl/kube-scheduler.pem
+
+- name: set-cluster
+  shell: /opt/kubernetes/bin/kubectl config set-cluster kubernetes --certificate-authority=/opt/kubernetes/ssl/ca.pem --embed-certs=true --server=https://{{ MASTER_IP }}:6443 --kubeconfig=/opt/kubernetes/cfg/kube-scheduler.kubeconfig
+
+- name: set-credentials
+  shell: /opt/kubernetes/bin/kubectl config set-credentials system:kube-scheduler --client-certificate=/opt/kubernetes/ssl/kube-scheduler.pem --embed-certs=true --client-key=/opt/kubernetes/ssl/kube-scheduler-key.pem --kubeconfig=/opt/kubernetes/cfg/kube-scheduler.kubeconfig
+
+- name: set-context
+  shell: /opt/kubernetes/bin/kubectl config set-context system:kube-scheduler --cluster=kubernetes --user=system:kube-scheduler --kubeconfig=/opt/kubernetes/cfg/kube-scheduler.kubeconfig
+
+- name: use-context
+  shell: /opt/kubernetes/bin/kubectl config use-context system:kube-scheduler --kubeconfig=/opt/kubernetes/cfg/kube-scheduler.kubeconfig
+
+- name: cp kube-scheduler bin file to /opt/kubernetes/bin
+  copy:
+    src: kube-scheduler
+    dest: /opt/kubernetes/bin/kube-scheduler
+    owner: root
+    group: root
+    mode: 0755
+
+- name: cp kube-scheduler.conf to /opt/kubernetes/cfg
+  template:
+    src: kube-scheduler/kube-scheduler.conf.j2
+    dest: /opt/kubernetes/cfg/kube-scheduler.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart kube-scheduler
+
+- name: cp kube-scheduler.service to /lib/systemd/system
+  template:
+    src: kube-scheduler/kube-scheduler.service.j2
+    dest: /lib/systemd/system/kube-scheduler.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart kube-scheduler
+
+- name: daemon reload
+  command: systemctl daemon-reload
+
+- name:  start kube-scheduler
+  service:
+    name: kube-scheduler
+    state: started
+    enabled: yes
+    daemon_reload: yes

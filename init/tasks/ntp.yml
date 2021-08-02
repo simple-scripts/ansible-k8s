@@ -1,0 +1,27 @@
+---
+- name: delete localtime
+  file: path=/etc/localtime state=absent
+
+- name: ensure shanghai timezome links localtime
+  file: src=/usr/share/zoneinfo/Asia/Shanghai dest=/etc/localtime state=link
+
+- name: install ntp
+  package: name=ntp state=present
+  notify:
+    - sync time
+
+- name: copy ntp.conf to server for centos7
+  template: src=centos7_ntp.conf.j2 dest=/etc/ntp.conf
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: copy ntp.conf to server for ubuntu18
+  template: src=ubuntu18_ntp.conf.j2 dest=/etc/ntp.conf
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18"
+
+- name: start ntpd for ubuntu18
+  service: name=ntp state=started enabled=yes
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18"
+
+- name: start ntp for centos7
+  service: name=ntpd state=started enabled=yes
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"

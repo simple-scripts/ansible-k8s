@@ -1,0 +1,13 @@
+---
+- name: sync time
+  shell: ntpdate {{ ntp_server }}
+
+- name: restart systemd-resolved
+  service:
+    name: systemd-resolved
+    state: restarted
+
+- name: restart zabbix-agent
+  service: 
+    name: zabbix-agent
+    state: restarted
