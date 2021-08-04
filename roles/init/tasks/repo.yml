@@ -1,0 +1,30 @@
+---
+- name: install epel repo for CentOS 7
+  package: name=epel-release state=present
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+#- name: update repo sources.list for ubuntu 18.04
+#  copy:
+#    src: sources.list.18.04
+#    dest: /etc/apt/sources.list
+#    owner: root
+#    group: root
+#    mode: 0644
+#  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18"
+
+- name: ensure enable all repositories
+  shell: add-apt-repository {{ item }}
+  with_items:
+       - main
+       - universe
+       - restricted
+       - multiverse
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18"
+
+- name: upgrade apt
+  apt: upgrade=dist
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18"
+
+- name: update apt list
+  apt: update_cache=yes
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "18"

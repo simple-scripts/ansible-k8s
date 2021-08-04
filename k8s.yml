@@ -1,0 +1,29 @@
+- hosts: k8s-etcd
+  remote_user: root
+  become: yes
+  become_method: sudo
+  roles:
+    - init
+    - k8s-common
+    - k8s-etcd
+
+- hosts: k8s-master
+  remote_user: root
+  become: yes
+  become_method: sudo
+  roles:
+#    - init
+#    - k8s-common
+    - k8s-master
+
+- hosts: k8s-node
+  remote_user: root
+  become: yes
+  become_method: sudo
+  roles:
+#    - init
+    - docker
+#    - k8s-common
+    - k8s-node
+#    - flannel
+    - quagga

@@ -1,0 +1,24 @@
+---
+- name: load ipvs module
+  shell: modprobe -- {{ item }}
+  with_items:
+    - ip_vs
+    - ip_vs_rr
+    - ip_vs_wrr
+    - ip_vs_sh
+    - nf_conntrack
+    - nf_conntrack_ipv4
+
+- name: import ipvs module
+  template:
+    src: ipvs.conf.j2
+    dest: /etc/modules-load.d/ipvs.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: start systemd-modules-load.service
+  service:
+    name: systemd-modules-load
+    state: started
+    enabled: yes

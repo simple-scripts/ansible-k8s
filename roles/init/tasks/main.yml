@@ -1,0 +1,12 @@
+---
+# tasks file for base
+#- include: dns.yml
+- include: repo.yml
+- include: pkg.yml
+#- include: ntp.yml
+- include: ipvs.yml
+- include: limit.yml
+- include: sysctl.yml
+- include: swap.yml
+- include: firewall.yml
+#- include: zabbix-agent.yml
