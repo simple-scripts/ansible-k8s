@@ -39,7 +39,7 @@
 
 - name: cp kube-proxy bin file to /opt/kubernetes/bin
   copy: 
-    src: kube-proxy
+    src: k8s-node/kube-proxy
     dest: /opt/kubernetes/bin/kube-proxy
     owner: root
     group: root
