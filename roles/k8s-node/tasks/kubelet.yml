@@ -34,7 +34,7 @@
 
 - name: cp kubelet bin file to /opt/kubernetes/bin
   copy: 
-    src: kubelet
+    src: k8s-node/kubelet
     dest: /opt/kubernetes/bin
     owner: root
     group: root
