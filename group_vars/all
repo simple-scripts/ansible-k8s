@@ -11,7 +11,7 @@ ETCD_CLUSTER: False
 BOOTSTRAP_TOKEN: "bbcf0533ac5cb878707738b92c3360e9"
 
 # etcd集群访问地址
-ETCD_ENDPOINTS: "https://192.168.31.220:2379"
+ETCD_ENDPOINTS: "https://192.168.31.212:2379,https://192.168.11.213:2379,https://192.168.11.214:2379"
 
 # etcd 集群初始化列表
 ETCD_CLUSTER_CONF: "etcd-node1=https://192.168.11.212:2380,etcd-node2=https://192.168.11.213:2380,etcd-node3=https://192.168.11.214:2380"
