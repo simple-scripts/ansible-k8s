@@ -1,6 +1,0 @@
----
-# tasks file for /etc/ansible/roles/k8s-master
-# intall kubernetes v1.21.2
-- include: kube-apiserver.yml
-- include: kube-controller-manager.yml
-- include: kube-scheduler.yml
