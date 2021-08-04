@@ -12,8 +12,8 @@
   become: yes
   become_method: sudo
   roles:
-#    - init
-#    - k8s-common
+    - init
+    - k8s-common
     - k8s-master
 
 - hosts: k8s-node
@@ -21,9 +21,9 @@
   become: yes
   become_method: sudo
   roles:
-#    - init
+    - init
     - docker
-#    - k8s-common
+    - k8s-common
     - k8s-node
 #    - flannel
     - quagga
