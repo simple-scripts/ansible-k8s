@@ -36,9 +36,9 @@ KUBE_APISERVER_OPTS="--advertise-address={{ NODE_IP }} \
   --audit-log-maxage=30 \
   --audit-log-maxbackup=3 \
   --audit-log-maxsize=100 \
-  --audit-log-path=/opt/kubernetes/logs/kube-apiserver-audit.log \
+  --audit-log-path=/opt/kubernetes/log/kube-apiserver-audit.log \
   --event-ttl=1h \
   --alsologtostderr=true \
   --logtostderr=false \
-  --log-dir=/opt/kubernetes/logs \
+  --log-dir=/opt/kubernetes/log \
   --v=4"
