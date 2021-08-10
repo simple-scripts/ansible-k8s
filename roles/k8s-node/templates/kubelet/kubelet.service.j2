@@ -13,6 +13,7 @@ ExecStart=/opt/kubernetes/bin/kubelet \
   --config=/opt/kubernetes/cfg/kubelet.json \
   --rotate-certificates \
   --pod-infra-container-image={{ PAUSE_POD }} \
+  --fail-swap-on=false \
   --alsologtostderr=true \
   --logtostderr=false \
   --log-dir=/opt/kubernetes/log \
