@@ -40,9 +40,10 @@
     group: root
     mode: 0755
 
-- name: cp kubelet.json to /opt/kubernetes/cfg
+- name: cp kubelet.yaml or kubelet.json to /opt/kubernetes/cfg
   template:
-    src: kubelet/kubelet.json.j2
+    src: kubelet/kubelet.yaml.j2
+    #src: kubelet/kubelet.json.j2
     dest: /opt/kubernetes/cfg/kubelet.yaml
     #dest: /opt/kubernetes/cfg/kubelet.json
     owner: root
