@@ -10,7 +10,7 @@ ExecStart=/opt/kubernetes/bin/kubelet \
   --bootstrap-kubeconfig=/opt/kubernetes/cfg/kubelet-bootstrap.kubeconfig \
   --cert-dir=/opt/kubernetes/ssl \
   --kubeconfig=/opt/kubernetes/cfg/kubelet.kubeconfig \
-  --config=/opt/kubernetes/cfg/kubelet.json \
+  --config=/opt/kubernetes/cfg/kubelet.yaml \
   --rotate-certificates \
   --pod-infra-container-image={{ PAUSE_POD }} \
   --fail-swap-on=false \
