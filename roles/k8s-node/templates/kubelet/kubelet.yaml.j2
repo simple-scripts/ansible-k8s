@@ -14,8 +14,8 @@ authorization:
     cacheUnauthorizedTTL: 0s
 cgroupDriver: cgroupfs
 clusterDNS:
-- {{ CLUSTER_DNS_DOMAIN }}
-clusterDomain: cluster.local
+- {{ CLUSTER_DNS_SVC_IP }}
+clusterDomain: {{ CLUSTER_DNS_DOMAIN }}
 cpuManagerReconcilePeriod: 0s
 evictionPressureTransitionPeriod: 0s
 fileCheckFrequency: 0s
@@ -31,7 +31,6 @@ rotateCertificates: true
 runtimeRequestTimeout: 0s
 shutdownGracePeriod: 0s
 shutdownGracePeriodCriticalPods: 0s
-staticPodPath: /etc/kubernetes/manifests
 streamingConnectionIdleTimeout: 0s
 syncFrequency: 0s
 volumeStatsAggPeriod: 0s
